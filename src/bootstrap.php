@@ -10,9 +10,10 @@ if (is_file(CRM_ROOT . '/.env')) {
 }
 date_default_timezone_set('UTC');
 if (session_status() !== PHP_SESSION_ACTIVE) {
+    $secureSession = getenv('APP_ENV') === 'production' || (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || str_starts_with((string)(getenv('APP_URL') ?: ''), 'https://');
     ini_set('session.use_strict_mode', '1');
     session_name('crm_session');
-    session_set_cookie_params(['lifetime'=>0,'path'=>'/','secure'=>getenv('APP_ENV')==='production' || (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),'httponly'=>true,'samesite'=>'Lax']);
+    session_set_cookie_params(['lifetime'=>0,'path'=>'/','secure'=>$secureSession,'httponly'=>true,'samesite'=>'Lax']);
     session_start();
 }
 require_once __DIR__ . '/Database.php';

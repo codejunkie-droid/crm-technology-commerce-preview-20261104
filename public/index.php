@@ -8,7 +8,8 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
 header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
 header("Content-Security-Policy: default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self' https://www.payfast.co.za https://sandbox.payfast.co.za");
 header('Cache-Control: private, no-store');
-if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']!=='off') header('Strict-Transport-Security: max-age=31536000');
+$httpsPublicUrl = str_starts_with((string)(getenv('APP_URL') ?: ''), 'https://');
+if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']!=='off') || $httpsPublicUrl) header('Strict-Transport-Security: max-age=31536000');
 ob_start();
 set_exception_handler(function(Throwable $error): void {
     error_log('CRM request failed: '.$error->getMessage());
