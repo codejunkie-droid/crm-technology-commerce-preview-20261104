@@ -1,0 +1,11 @@
+.env
+storage/*
+!storage/.gitkeep
+!storage/.htaccess
+*.log
+.DS_Store
+ios/.build/
+ios/DerivedData/
+ios/*.xcodeproj/xcuserdata/
+__pycache__/
+*.pyc

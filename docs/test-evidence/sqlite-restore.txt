@@ -1,0 +1,13 @@
+{
+  "database": "sqlite",
+  "passed": 5,
+  "failed": 0,
+  "cases": [
+    "Row counts match across 35 application tables",
+    "Explicit index definitions preserved",
+    "Restored integrity_check returns ok",
+    "Restored foreign_key_check is empty",
+    "Backup file permissions are 0600"
+  ],
+  "source": "Fresh isolated demo database, no private production records"
+}

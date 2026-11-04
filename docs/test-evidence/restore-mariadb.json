@@ -1,0 +1,23 @@
+{
+  "status": "pass",
+  "database": "MariaDB 13.0.2",
+  "tables": 35,
+  "all_counts_match": true,
+  "all_schema_definitions_match": true,
+  "all_table_checksums_match": true,
+  "foreign_keys_enabled": true,
+  "backup_mode": "0o600",
+  "restored_catalog": {
+    "total": 102,
+    "returned": 3
+  },
+  "fixture_rows": {
+    "users": 1,
+    "products": 102,
+    "product_variants": 111,
+    "orders": 1,
+    "order_items": 1,
+    "quotes": 1,
+    "quote_items": 1
+  }
+}

@@ -1,0 +1,103 @@
+{
+    "database": "mysql",
+    "passed": 24,
+    "failed": 0,
+    "cases": [
+        {
+            "test": "Database catalog is populated and search is parameterized",
+            "status": "pass"
+        },
+        {
+            "test": "Categories and prices are filtered",
+            "status": "pass"
+        },
+        {
+            "test": "CSRF denies missing and invalid tokens",
+            "status": "pass"
+        },
+        {
+            "test": "Guest cannot read administrative or account data",
+            "status": "pass"
+        },
+        {
+            "test": "Cart totals use server price, reject stock overrun, allow removal",
+            "status": "pass"
+        },
+        {
+            "test": "Registration ignores role escalation fields",
+            "status": "pass"
+        },
+        {
+            "test": "Dealer application stays pending until admin approval",
+            "status": "pass"
+        },
+        {
+            "test": "Only admin approves dealer and applies server-side dealer pricing",
+            "status": "pass"
+        },
+        {
+            "test": "Dealer cannot bypass EFT-only checkout",
+            "status": "pass"
+        },
+        {
+            "test": "Checkout creates one immutable order and repeats idempotently",
+            "status": "pass"
+        },
+        {
+            "test": "Stock race at checkout rolls back instead of overselling",
+            "status": "pass"
+        },
+        {
+            "test": "Quote captures totals and provides a protected valid PDF",
+            "status": "pass"
+        },
+        {
+            "test": "Builder returns every group, computes costs and flags unknown BIOS",
+            "status": "pass"
+        },
+        {
+            "test": "Builder detects socket and DDR mismatch and refuses cart conversion",
+            "status": "pass"
+        },
+        {
+            "test": "Saved build is durable and shareable without customer data",
+            "status": "pass"
+        },
+        {
+            "test": "Ticket history and reply are persisted",
+            "status": "pass"
+        },
+        {
+            "test": "Ownership boundaries protect order and ticket data",
+            "status": "pass"
+        },
+        {
+            "test": "Cart expiration deletes cart items but preserves orders",
+            "status": "pass"
+        },
+        {
+            "test": "Marketing unsubscribe is stored and account email cannot be overridden",
+            "status": "pass"
+        },
+        {
+            "test": "Payment validation amount mismatch is rejected and replay is idempotent",
+            "status": "pass"
+        },
+        {
+            "test": "Production checkout fails closed without operational verification",
+            "status": "pass"
+        },
+        {
+            "test": "Admin state transitions require reasons and correct previous state",
+            "status": "pass"
+        },
+        {
+            "test": "Failed login has generic response and session does not gain authority",
+            "status": "pass"
+        },
+        {
+            "test": "Rate limits block repeated requests",
+            "status": "pass"
+        }
+    ]
+}

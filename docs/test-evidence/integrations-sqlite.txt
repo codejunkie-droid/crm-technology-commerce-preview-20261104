@@ -1,0 +1,37 @@
+PASS Exact cents conversion
+PASS Sub-cent price rejected
+PASS Exponential money rejected
+PASS Provider decimals preserved as strings
+PASS Malformed provider JSON rejected
+PASS Valid fixture ITN yields verified event
+PASS ITN validates with official sandbox endpoint
+PASS Repeated verified event retains same deduplication key
+PASS Invalid ITN source rejected
+PASS DNS failure fails closed
+PASS Tampered signature rejected
+PASS Amount mismatch rejected
+PASS Cancelled payment cannot mark paid
+PASS Wrong order rejected
+PASS Dealer card callback denied
+PASS EFT order cannot accept PayFast event
+PASS Duplicate form field rejected
+PASS Empty ITN values preserved in signature and server validation
+PASS Provider validation failure rejected
+PASS Hosted checkout uses exact database amount
+PASS Dealer hosted checkout denied
+PASS Missing payment credentials unavailable
+PASS Shipping prices never pass through float arithmetic
+PASS Incomplete shipment is rejected
+PASS Courier outage is not a zero-price quote
+PASS Pending carrier fails honestly
+PASS Fincon mapped snapshot uses exact decimal
+PASS Empty Fincon sync preserves existing snapshot
+PASS Fincon credentials pending fails closed
+PASS Float-valued Fincon prices rejected
+PASS Email acceptance returns reference
+PASS Email sends to one recipient only
+PASS Email failure not reported as delivery
+PASS Assistant cannot introduce model-generated product IDs/prices
+PASS Transport blocks unapproved hosts before network
+
+35 integration checks passed. Fixtures only; no provider account or network was used.

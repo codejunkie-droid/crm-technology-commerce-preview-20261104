@@ -1,0 +1,18 @@
+PASS Profile name persists
+PASS Address persists
+PASS Address edits persist
+PASS Unverified email change blocked
+PASS Admin category persists
+PASS Separate variant identities persist
+PASS Variant price determines totals
+PASS Variant-specific stock enforced
+PASS Coupon rounds down exact integer cents
+PASS Quote captures coupon-adjusted total
+PASS Quote PDF shows promotion discount
+PASS Disabled coupon stops affecting totals
+PASS Expired coupon rejected
+PASS Dealer variant price applied server-side
+PASS Retail coupon cannot stack with dealer price
+PASS Dealer catalog filter uses displayed effective price
+
+16 extension checks passed.

@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: crm-technology-preview
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /
+    envVars:
+      - key: APP_ENV
+        value: demo

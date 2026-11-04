@@ -1,0 +1,19 @@
+{
+    "database": "mysql",
+    "passed": 3,
+    "failed": 0,
+    "cases": [
+        {
+            "test": "Four concurrent ITNs produce one payment and three idempotent acknowledgements",
+            "status": "pass"
+        },
+        {
+            "test": "Concurrent rate-limit checks admit exactly the configured maximum",
+            "status": "pass"
+        },
+        {
+            "test": "Four concurrent checkouts for the last unit commit one order and never oversell",
+            "status": "pass"
+        }
+    ]
+}

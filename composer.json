@@ -1,0 +1,25 @@
+{
+  "name": "crmtechnology/precision-commerce",
+  "description": "CRM Technology PHP commerce application for Apache and MySQL hosting",
+  "type": "project",
+  "require": {
+    "php": ">=8.2",
+    "ext-pdo": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "ext-session": "*",
+    "ext-openssl": "*",
+    "ext-curl": "*",
+    "ext-fileinfo": "*",
+    "ext-iconv": "*",
+    "ext-zlib": "*"
+  },
+  "suggest": {
+    "ext-pdo_mysql": "Required for production MySQL/MariaDB",
+    "ext-pdo_sqlite": "Required for local SQLite preview and in-memory tests"
+  },
+  "scripts": {
+    "test": ["php tests/backend.php", "php tests/integrations.php", "php tests/security.php", "php tests/extensions.php"],
+    "serve": "php -S 127.0.0.1:8080 -t public router.php"
+  }
+}

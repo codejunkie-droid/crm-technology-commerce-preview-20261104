@@ -1,0 +1,2 @@
+# The domain must point to public/. Prevent accidental exposure if it does not.
+Require all denied

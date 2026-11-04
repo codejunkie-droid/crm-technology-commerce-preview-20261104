@@ -1,0 +1,59 @@
+{
+    "database": "sqlite",
+    "passed": 13,
+    "failed": 0,
+    "cases": [
+        {
+            "test": "Direct registration into another account isolates previous cart and wishlist",
+            "status": "pass"
+        },
+        {
+            "test": "Account-owned order and quote reject even a matching old guest token",
+            "status": "pass"
+        },
+        {
+            "test": "Direct login across accounts changes guest capability",
+            "status": "pass"
+        },
+        {
+            "test": "Cart increment enforces the final quantity bound",
+            "status": "pass"
+        },
+        {
+            "test": "Payment duplicate does not duplicate money records",
+            "status": "pass"
+        },
+        {
+            "test": "Payment identifier replay cannot be attributed to a different order",
+            "status": "pass"
+        },
+        {
+            "test": "A malformed or fractional payment event cannot be persisted",
+            "status": "pass"
+        },
+        {
+            "test": "Rate limiter reset and cap are enforced by conditional writes",
+            "status": "pass"
+        },
+        {
+            "test": "Changing an address owned by another user is denied",
+            "status": "pass"
+        },
+        {
+            "test": "Signed-in cart survives logout and merges guest items only for its owner",
+            "status": "pass"
+        },
+        {
+            "test": "Expired saved cart is not restored during login",
+            "status": "pass"
+        },
+        {
+            "test": "Password reset revokes all previously authenticated sessions",
+            "status": "pass"
+        },
+        {
+            "test": "Oversized financial input is rejected before arithmetic",
+            "status": "pass"
+        }
+    ]
+}

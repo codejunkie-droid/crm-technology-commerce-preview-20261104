@@ -1,0 +1,10 @@
+Verification date: 4 November 2026
+Reported by the primary verification agent during resumed final checks.
+HTTP: tests/http_flows.py passed 29 checks on loopback demo server.
+Browser: Chrome 156 via agent-browser 0.27.
+Viewports: desktop 1440x1000, mobile 390x844.
+Passed observed flows: homepage visual review, keyboard basket add, synthetic EFT checkout with test order pending payment, mobile menu/Escape, catalog filter expansion, persisted two-product comparison, comparison differences toggle and reversal, incompatible builder fixture warnings/total.
+Comparison layout and mobile screenshots visually inspected; no horizontal document overflow in checked states.
+No JavaScript errors reported during checked flows.
+Difference toggle styling was corrected after the check exposed missing hiding behavior; checked hides all equal rows and unchecked restores them.
+Limit: local Chrome sample only, not Safari/Firefox/Edge, physical devices, complete accessibility or production performance acceptance.
