@@ -45,7 +45,7 @@ $session = $store->session(); $user = $session['user'] ?? null; $demo = $session
 $cart = $store->cart(); $categories = $store->categories();
 $all = $store->catalog(['limit'=>100]);
 $products = $all['products'] ?? []; $page = trim($path,'/') ?: 'home';
-$title = 'Technology. Without compromise.'; $description = 'Explore computing, components, connectivity and business technology at CRM Technology.';
+$title = 'Laptops, PCs & Technology'; $description = 'Explore computing, components, connectivity and business technology at CRM Technology.';
 $status = 200; $product = null; $listing = null;
 if (preg_match('~^products/(.+)$~',$page,$m)) { $product=$store->product($m[1]); if(!$product){$page='not-found';$status=404;}else{$page='product';$title=$product['name'];$description=mb_substr(strip_tags($product['description']??''),0,155);} }
 elseif(preg_match('~^category/(.+)$~',$page,$m)){$_GET['category']=$m[1];$page='catalog';}

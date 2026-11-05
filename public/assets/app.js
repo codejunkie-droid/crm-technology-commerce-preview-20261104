@@ -32,22 +32,23 @@
   function safeImage(value) {return /^\/assets\/[a-zA-Z0-9/_.-]+$/.test(value || '') ? value:'/assets/product-placeholder.svg';}
   function card(p) {
     const specs=Object.values(p.specs || {}).filter(x=>typeof x !== 'object').slice(0,3).join(' · ');
-    return `<article class="product-card" data-product-id="${Number(p.id)}"><div class="product-visual"><a href="${productPath(p)}" tabindex="-1" aria-hidden="true"><img src="${esc(safeImage(p.image))}" alt="" loading="lazy" width="400" height="320"></a><button class="icon-button save-button" data-wishlist="${Number(p.id)}" aria-label="Save ${esc(p.name)}">${icon('heart')}</button><button class="quick-view" data-quickview="${esc(p.slug)}">Quick view</button></div><div class="product-body"><p class="brand-label">${esc(p.brand)}</p><h3><a href="${productPath(p)}">${esc(p.name)}</a></h3><p class="card-specs">${esc(specs)}</p><div class="stock-label ${p.stock>0?'available':'unavailable'}"><i></i>${document.body.dataset.demo==='true'?(p.stock>0?'Demo stock available':'Unavailable in preview'):(p.stock>0?'Available':'Check availability')}</div><div class="card-bottom"><div class="price"><strong>${money(p.price_cents)}</strong>${p.old_price_cents>p.price_cents?`<s>${money(p.old_price_cents)}</s>`:''}</div><button class="add-button" data-add="${Number(p.variant_id)}" aria-label="Add ${esc(p.name)} to basket" ${p.stock<1?'disabled':''}>${icon('plus')}</button></div><button class="compare-button" data-compare="${Number(p.id)}" data-slug="${esc(p.slug)}">${icon('compare')} Compare</button></div></article>`;
+    return `<article class="product-card" data-product-id="${Number(p.id)}"><div class="product-visual"><a href="${productPath(p)}" tabindex="-1" aria-hidden="true"><img src="${esc(safeImage(p.image))}" alt="" loading="lazy" width="400" height="320"></a><button class="icon-button save-button" data-wishlist="${Number(p.id)}" aria-label="Save ${esc(p.name)}">${icon('heart')}</button><button class="quick-view" data-quickview="${esc(p.slug)}">Quick view</button></div><div class="product-body"><p class="brand-label">${esc(p.brand)}</p><h3><a href="${productPath(p)}">${esc(p.name)}</a></h3><p class="card-specs">${esc(specs)}</p><div class="stock-label ${p.stock>0?'available':'unavailable'}"><i></i>${document.body.dataset.demo==='true'?(p.stock>0?'Demo stock available':'Unavailable in preview'):(p.stock>0?'Available':'Check availability')}</div><div class="card-bottom"><div class="price"><strong>${money(p.price_cents)}</strong>${p.old_price_cents>p.price_cents?`<s>${money(p.old_price_cents)}</s>`:''}</div><button class="add-button" data-add="${Number(p.variant_id)}" aria-label="Add ${esc(p.name)} to basket" ${p.stock<1?'disabled':''}>${icon('cart')}<span>Add to basket</span></button></div><button class="compare-button" data-compare="${Number(p.id)}" data-slug="${esc(p.slug)}">${icon('compare')} Compare</button></div></article>`;
   }
   let focusBeforeDialog;
-  function openDialog(html, dialog = $('#quick-view')) {
-    if(!dialog)return;focusBeforeDialog=document.activeElement;
+  function openDialog(html, dialog = $('#quick-view'), trigger = document.activeElement) {
+    if(!dialog)return;focusBeforeDialog=trigger;
     const content=$('.dialog-content',dialog);if(content && html!==undefined)content.innerHTML=html;
     if(!dialog.open)dialog.showModal();
   }
   function closeDialog(dialog) {if(dialog?.open)dialog.close();focusBeforeDialog?.focus();}
-  $$('dialog').forEach(dialog=>{
+  $$('dialog:not(#mobile-navigation)').forEach(dialog=>{
+    dialog.addEventListener('cancel',event=>{event.preventDefault();closeDialog(dialog);});
     dialog.addEventListener('click',event=>{if(event.target===dialog)closeDialog(dialog);});
     dialog.addEventListener('close',()=>focusBeforeDialog?.focus());
   });
-  async function quickView(slug) {
+  async function quickView(slug, trigger) {
     const p=await api('/api/products/'+encodeURIComponent(slug));
-    openDialog(`<div class="quick-content"><img src="${esc(safeImage(p.image))}" alt="${esc(p.name)}" width="400" height="400"><section><p class="brand-label">${esc(p.brand)}</p><h2>${esc(p.name)}</h2><p>${esc(Object.values(p.specs || {}).filter(x=>typeof x!=='object').slice(0,4).join(' · '))}</p><div class="detail-price"><strong>${money(p.price_cents)}</strong></div><p class="catalog-note">Catalog snapshot. ${document.body.dataset.demo==='true'?'Demonstration inventory.':'Availability requires verification.'}</p><button class="button primary" data-add="${Number(p.variant_id)}" ${p.stock<1?'disabled':''}>Add to basket ${icon('cart')}</button><a class="button secondary" href="${productPath(p)}">View full details ${icon('arrow')}</a></section></div>`);
+    openDialog(`<div class="quick-content"><img src="${esc(safeImage(p.image))}" alt="${esc(p.name)}" width="400" height="400"><section><p class="brand-label">${esc(p.brand)}</p><h2>${esc(p.name)}</h2><p>${esc(Object.values(p.specs || {}).filter(x=>typeof x!=='object').slice(0,4).join(' · '))}</p><div class="detail-price"><strong>${money(p.price_cents)}</strong></div><p class="catalog-note">Catalog snapshot. ${document.body.dataset.demo==='true'?'Demonstration inventory.':'Availability requires verification.'}</p><button class="button primary" data-add="${Number(p.variant_id)}" ${p.stock<1?'disabled':''}>Add to basket ${icon('cart')}</button><a class="button secondary" href="${productPath(p)}">View full details ${icon('arrow')}</a></section></div>`, $('#quick-view'), trigger);
   }
   let compared=[];
   let compareDifferencesOnly=false;
@@ -135,7 +136,7 @@
       syncCompare();toast(found?'Removed from comparison.':'Added to comparison. Open Compare to view your choices.');return;
     }
     if(button.matches('[data-remove-compare]')){compared=compared.filter(p=>Number(p.id)!==Number(button.dataset.removeCompare));syncCompare();renderCompare().catch(e=>toast(e.message,true));return;}
-    if(button.matches('[data-quickview]')){action(button,()=>quickView(button.dataset.quickview));return;}
+    if(button.matches('[data-quickview]')){action(button,()=>quickView(button.dataset.quickview,button));return;}
     if(button.matches('.image-zoom')){const image=$('img',button);openDialog(`<img class="zoom-image" src="${esc(image.src)}" alt="${esc(image.alt)}"><p>${esc(image.alt)}</p>`);return;}
     if(button.matches('[data-quantity]')){const input=$('#product-quantity');if(input&&!input.disabled)input.value=String(Math.max(Number(input.min)||1,Math.min(Number(input.max)||99,Number(input.value || 1)+Number(button.dataset.quantity))));return;}
     if(button.matches('[data-view]')){$$('.view-toggle').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));$('.catalog-grid')?.classList.toggle('list-view',button.dataset.view==='list');return;}
@@ -143,7 +144,8 @@
       action(button,async()=>{const data=await api('/api/products?limit=4'+(button.dataset.featured?'&category='+encodeURIComponent(button.dataset.featured):''));$('.featured-products').innerHTML=data.products.map(card).join('');$$('[data-featured]').forEach(el=>el.classList.toggle('active',el===button));syncCompare();});return;
     }
     if(button.matches('[data-quote-cart]')){action(button,async()=>{const quote=await api('/api/quotes',{source:'cart'});const node=$('#quote-result');if(node)node.innerHTML=`<a class="button primary full" href="${esc(quote.pdf_url)}">Download ${esc(quote.number)}</a><p>Draft quote created. Merchant review required.</p>`;toast('Your quotation is ready to download.');});return;}
-    if(button.matches('.mobile-menu-toggle')){const expanded=button.getAttribute('aria-expanded')!=='true';button.setAttribute('aria-expanded',String(expanded));document.body.classList.toggle('menu-open',expanded);$('.site-header')?.classList.toggle('menu-open',expanded);$('.category-nav')?.classList.toggle('is-open',expanded);return;}
+    if(button.matches('.mobile-menu-toggle')){const navigation=$('#mobile-navigation');if(navigation){navigation.showModal();document.body.classList.add('navigation-open');button.setAttribute('aria-expanded','true');}return;}
+    if(button.matches('[data-close-navigation]')){closeNavigation();return;}
     if(button.matches('.assistant-launcher,.assistant-close')){const panel=$('.assistant-panel'),open=button.matches('.assistant-launcher')?panel.hidden:false;panel.hidden=!open;$('.assistant-launcher')?.setAttribute('aria-expanded',String(open));if(open)$('#assistant-message')?.focus();return;}
     if(button.matches('[data-order-view]')){action(button,async()=>{const o=await api('/api/orders/'+Number(button.dataset.orderView));openDialog(`<p class="eyebrow">${o.is_demo?'TEST ORDER':'ORDER'}</p><h2>${esc(o.number)}</h2><p>${esc(statusText(o.status))}</p>${o.items.map(item=>`<div class="account-row"><span>${esc(item.name)}<small>Quantity ${Number(item.quantity)}</small></span><strong>${money(item.line_total_cents)}</strong></div>`).join('')}<p><strong>Items total ${money(o.total_cents)}</strong></p><p>Delivery and payment verification are separate from this confirmation.</p>`);});return;}
     if(button.matches('[data-admin-edit],[data-admin-new-product]')){
@@ -216,6 +218,13 @@
     if(token){api('/api/build/'+encodeURIComponent(token)).then(data=>{for(const [group,p] of Object.entries(data.components||{})){const input=$('#part-'+group);if(input)input.value=String(p.variant_id);}$('#build-name').value=data.name;$('#build-budget').value=String(Number(data.budget_cents)/100);$('#build-purpose').value=data.purpose;buildToken=token;showBuild(data);}).catch(e=>toast(e.message,true));}
     else validateBuild().catch(e=>toast(e.message,true));
   }
+  const mobileNavigation=$('#mobile-navigation');
+  function clearNavigation(){document.body.classList.remove('navigation-open');$('.mobile-menu-toggle')?.setAttribute('aria-expanded','false');$('.mobile-menu-toggle')?.focus();}
+  function closeNavigation(){mobileNavigation?.close();clearNavigation();}
+  mobileNavigation?.addEventListener('close',clearNavigation);
+  mobileNavigation?.addEventListener('cancel',event=>{event.preventDefault();closeNavigation();});
+  mobileNavigation?.addEventListener('click',event=>{if(event.target===mobileNavigation){const r=mobileNavigation.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeNavigation();}});
+  window.matchMedia('(min-width: 901px)').addEventListener('change',event=>{if(event.matches&&mobileNavigation?.open)closeNavigation();});
   syncCompare();renderCompare().catch(e=>toast(e.message,true));
   // If an asset is removed from the catalog, keep its card legible.
   document.addEventListener('error',event=>{const image=event.target;if(image instanceof HTMLImageElement&&!image.dataset.failed){image.dataset.failed='1';image.src='/assets/product-placeholder.svg';}},true);
